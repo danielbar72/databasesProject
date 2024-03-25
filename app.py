@@ -1,11 +1,11 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData, create_engine
-from flask_login import UserMixin, login_user, login_url, LoginManager, login_required, logout_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+import csv
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -35,18 +35,19 @@ disease_gene = db.Table('disease_gene',
 
 
 
-disease_drug = db.Table('disease_drug', 
+"""
+    disease_drug = db.Table('disease_treatment', 
     db.Column('disease_id', db.Integer, db.ForeignKey('disease.id')),
-    db.Column('drug_id', db.Integer, db.ForeignKey('drug.id')))
+    db.Column('treatment_id', db.Integer, db.ForeignKey('treatment.id')))
 
-
+"""
 class Disease(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     description = db.Column(db.String(200))
     symptoms = db.Column(db.String(200))
-    
     genes = db.relationship('Gene', secondary=disease_gene, backref='genes')
+    treatment = db.relationship('Treatment', uselist=False, back_populates='disease')
 
 class Gene(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,12 +55,14 @@ class Gene(db.Model):
     chromosome = db.Column(db.Integer)
     function = db.Column(db.String(200))
 
-class Drug(db.Model):
+class Treatment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, unique=True)
+    #name = db.Column(db.String(200), nullable=False, unique=True)
     description = db.Column(db.String(200))
-    mechanism_of_action = db.Column(db.String(200))
-    side_effects = db.Column(db.String(200))
+    disease_id = db.Column(db.Integer, db.ForeignKey('disease.id'), unique=True)
+    disease = db.relationship('Disease', back_populates='treatment')
+    #mechanism_of_action = db.Column(db.String(200))
+    #side_effects = db.Column(db.String(200))
 
 class RegistrationForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -135,17 +138,28 @@ def index():
 
 
 def fill_db():
-    d1 = Disease(name="Ahoj")
-    d2 = Disease(name="Svete")
+    """    
+    Fill the database with 
+    Disease, gene, description, treatment
+    """
+    
+    # Open the CSV file
+    with open('diseases.csv', newline='') as csvfile:
+        # Create a CSV reader object
+        csv_reader = csv.reader(csvfile)
+        
+        # Iterate over each row in the CSV file
+        for row in csv_reader:
+            t = Treatment(description=row[3])
+            d = Disease(name=row[0], description=row[2])
+            g = Gene(name=row[1])
+            d.treatment = t
+            t.disease = d
+            d.genes.append(g)
+            db.session.add_all([t,d,g])
+        db.session.commit()
 
-    g1 = Gene(name="BRCA")
-    g2 = Gene(name="CRBA")
 
-    db.session.add_all([d1,d2,g1,g2])
-    db.session.commit()
-
-    d1.genes.append(g1)
-    db.session.commit()
 
 
 if __name__ == '__main__':
