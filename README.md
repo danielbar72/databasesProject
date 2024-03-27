@@ -2,7 +2,7 @@
 
 To run the app, type
 
-```pip3 install -r requrements.txt```
+```pip3 install -r requirements.txt```
 
 
 then run the app by typing
