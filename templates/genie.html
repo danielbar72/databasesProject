@@ -14,10 +14,10 @@
             top: 0;
             right: 0;
             padding: 10px;
-            background-color: rgba(0, 128, 128, 0.8); 
-            border-top: 1px solid rgba(0, 128, 128, 0.8); 
-            border-right: 1px solid rgba(0, 128, 128, 0.8); 
-            border-left: 1px solid rgba(0, 128, 128, 0.8); 
+            background-color: rgba(0, 128, 128, 0.8); /* Teal with transparency */
+            border-top: 1px solid rgba(0, 128, 128, 0.8); /* Teal with transparency */
+            border-right: 1px solid rgba(0, 128, 128, 0.8); /* Teal with transparency */
+            border-left: 1px solid rgba(0, 128, 128, 0.8); /* Teal with transparency */
         }
 
         .logout-button {
@@ -31,27 +31,37 @@
         }
 
         .logout-button:hover {
-            background-color: rgba(0, 128, 128, 0.5); 
+            background-color: rgba(0, 128, 128, 0.5); /* Light Teal with transparency */
         }
 
         .container {
             position: relative;
             width: 100%;
             height: 100vh;
-            background-image: url('../static/img/green_landing.jpg'); 
+            background-image: url('https://www.getfulltextresearch.com/wp-content/uploads/2020/01/laptop-1.png'); /* Background image URL */
             background-size: cover;
             background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column; /* Center items vertically */
+        }
+
+        .header {
+            font-size: 36px;
+            color: #008080; /* Teal */
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #008080; /* Teal */
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 80%;
         }
 
         .search-container {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8); 
+            background-color: rgba(255, 255, 255, 0.8); /* White with transparency */
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -70,7 +80,7 @@
 
         .search-button {
             padding: 8px 16px;
-            background-color: #008080; 
+            background-color: #008080; /* Teal */
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -80,7 +90,7 @@
         }
 
         .search-button:hover {
-            background-color: #005757;
+            background-color: #005757; /* Dark Teal */
         }
 
         .output-container {
@@ -90,7 +100,7 @@
 
         .output-text {
             font-size: 18px;
-            color: #333; 
+            color: #333; /* Dark Gray */
         }
     </style>
 </head>
@@ -99,6 +109,10 @@
         <button class="logout-button">Logout</button>
     </div>
     <div class="container">
+        <div class="header">Genie</div>
+        <div class="description">
+            The platform that provides comprehensive disease information including genetic data, descriptions, and treatment options all in one place. Simply search for the disease of interest and access summarized data.
+        </div>
         <div class="search-container">
             <input type="text" class="search-bar" placeholder="Search...">
             <button class="search-button" onclick="showOutput()">Search</button>
