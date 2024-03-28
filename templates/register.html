@@ -4,22 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://tack180.com/wp-content/uploads/2019/09/Genetic-Testing_What-Are-the-Pros-and-Cons.png'); 
+            background-color: #f0f8ff; 
+            color: #333; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .registration-form {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #008080; /* Teal */
+            font-family: 'Roboto', sans-serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: calc(100% - 22px); /* Adjusted width */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #008080; /* Teal */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: calc(100% - 22px); /* Adjusted width */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005757; /* Dark Teal */
+        }
+
+        .login-link {
+            margin-top: 20px;
+            color: #008080; /* Teal */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #005757; /* Dark Teal */
+        }
+    </style>
 </head>
 <body>
-    <h1>Register Page</h1>
-    <a href="{{url_for('login')}}">Already have an account? Log in</a><br>
-    <form method="POST" action="">
-        {{form.hidden_tag()}}
-        {{form.username}}<br>
-        {{form.password}}<br>
-        {{form.submit}}<br>
-        {% if form.username.errors %}
-                <ul>
-                    {% for error in form.username.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-    </form>
+    <div class="container">
+        <div class="registration-form">
+            <h1>Register</h1>
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <input type="text" name="first_name" placeholder="First Name" required><br>
+                <input type="text" name="last_name" placeholder="Last Name" required><br>
+                <input type="text" name="username" placeholder="Username" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
+                <input type="submit" value="Register">
+            </form>
+            <a class="login-link" href="{{ url_for('login') }}">Already have an account? Log in</a>
+        </div>
+    </div>
 </body>
 </html>
