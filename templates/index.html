@@ -3,40 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Initial page</title>
+    <title>Genie Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff; /* Light Blue */
+            background-image: url('index_bckgrnd.jpg'); 
+            background-size: cover;
             color: #333; /* Dark Gray */
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.9); /* Light Gray with transparency */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         h1 {
             color: #008080; /* Teal */
+            font-family: 'Roboto', sans-serif; /* Example font, replace with desired font */
+            text-align: center;
+            font-size: 36px; /* Adjust font size as needed */
+            margin-bottom: 20px;
         }
 
-        a {
-            color: #008000; /* Green */
+        form {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #008080; /* Teal */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005757; /* Dark Teal */
+        }
+
+        .register-link {
+            text-align: center;
+            color: #008080; /* Teal */
+        }
+
+        .register-link a {
+            color: #008080; /* Teal */
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
-        a:hover {
-            color: #00bfff; /* Sky Blue */
+        .register-link a:hover {
+            color: #005757; /* Dark Teal */
         }
     </style>
 </head>
 <body>
-    <h1>Initial page</h1>
-    <a href="{{url_for('login')}}">Login</a><br>
-    <a href="{{url_for('register')}}">Register</a><br>
-    <a href="{{url_for('genie')}}">Genie app</a>
+    <div class="container">
+        <h1>Genie</h1>
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+        <div class="register-link">
+            <p>Don't have an account? <a href="/register">Register</a></p>
+        </div>
+    </div>
 </body>
 </html>
