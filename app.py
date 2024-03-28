@@ -124,7 +124,7 @@ def register():
         db.session.commit()
         return redirect('/login')
 
-    return render_template('register.html', form = form)
+    return render_template('index.html', form = form)
 
 @app.route('/genie')
 @login_required
