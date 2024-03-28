@@ -3,19 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Genie Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://tack180.com/wp-content/uploads/2019/09/Genetic-Testing_What-Are-the-Pros-and-Cons.png'); 
+            background-size: cover;
+            color: #333; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #008080; 
+            font-family: 'Roboto', sans-serif; 
+            text-align: center;
+            font-size: 36px; 
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: calc(100% - 22px); 
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px); 
+            margin-right: 10px; 
+        }
+
+        input[type="submit"] {
+            background-color: #008080; 
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: calc(100% - 22px); 
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005757; 
+        }
+
+        .register-link {
+            text-align: center;
+            color: #008080;
+        }
+
+        .register-link a {
+            color: #008080; 
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #005757; 
+        }
+    </style>
 </head>
 <body>
-    <h1>Login Page</h1>
-    <a href="{{url_for('register')}}">Don't have an account? Sign up</a><br>
-    
-    <form method="POST" action="">
-        {{form.hidden_tag()}}
-        {{form.username}}<br>
-        {{form.password}}<br>
-        {{form.submit}}
-    </form>
-
-
+    <div class="container">
+        <h1>Genie</h1>
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+        <div class="register-link">
+            <p>Don't have an account? <a href="/register">Register</a></p>
+        </div>
+    </div>
 </body>
 </html>
