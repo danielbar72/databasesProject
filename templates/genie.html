@@ -48,18 +48,47 @@
             justify-content: center;
             text-align: center;
             padding-top: 50px;
+            background-image: url('../static/img/green_landing.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+            position: relative;
         }
 
         .div-3 {
-            color: #008080; /* Teal */
+            color: #ffffff; /* White */
             font-size: 36px;
             margin-bottom: 20px;
             font-family: 'Roboto', sans-serif;
+            position: absolute;
+            top: 20px;
+            left: 20px;
         }
 
-        .div-4 {
-            color: #008080; /* Teal */
-            margin-bottom: 30px;
+        .div-5 {
+            margin-top: 50px;
+        }
+
+        .landing-page {
+            position: relative;
+        }
+
+        #search-form {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent White */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #search-input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .button {
@@ -70,15 +99,18 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 20px;
         }
 
         .button:hover {
             background-color: #005757; /* Dark Teal */
         }
 
-        .genie-image {
-            width: 100%;
-            max-width: 800px;
+        .div-42 {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -88,9 +120,6 @@
     </div>
     <div class="container">
         <div class="div-3">Genie</div>
-        <div class="div-4">
-            The platform that provides comprehensive disease information including genetic data, descriptions, and treatment options all in one place. Simply search for the disease of interest and access summarized data.
-        </div>
         <div class="div-5">
             <div class="landing-page">
                 <form id="search-form">
@@ -106,7 +135,6 @@
             </div>
         </div>
     </div>
-    <img src="../static/img/green_landing.jpg" alt="Genie" class="genie-image" />
     <div class="div-8">
         <button class="button"><a href="learn_more.html" style="color: #fff; text-decoration: none;">Learn More</a></button>
         <button class="button"><a href="contact_us.html" style="color: #fff; text-decoration: none;">Contact Us</a></button>
