@@ -2,143 +2,116 @@
 <html>
 <head>
     <title>Genie - Find Relevant Information</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/styles.css" />
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff; /* White */
-            color: #008080; /* Teal */
             margin: 0;
             padding: 0;
-            position: relative;
+            font-family: Arial, sans-serif;
         }
 
         .logout-container {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            border-bottom: 1px solid #008080; /* Teal */
-            background-color: #ffffff; /* White */
-            padding: 10px 20px;
-            box-sizing: border-box;
+            right: 0;
+            padding: 10px;
+            background-color: rgba(0, 128, 128, 0.8); /* Teal with transparency */
+            border-top: 1px solid rgba(0, 128, 128, 0.8); /* Teal with transparency */
+            border-right: 1px solid rgba(0, 128, 128, 0.8); /* Teal with transparency */
+            border-left: 1px solid rgba(0, 128, 128, 0.8); /* Teal with transparency */
         }
 
         .logout-button {
             padding: 5px 10px;
-            background-color: #ffffff; /* White */
-            color: #008080; /* Teal */
+            background-color: transparent;
+            color: #fff;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            text-decoration: none;
+            transition: background-color 0.3s ease;
             font-size: 14px;
         }
 
         .logout-button:hover {
-            background-color: #008080; /* Teal */
-            color: #fff;
+            background-color: rgba(0, 128, 128, 0.5); /* Light Teal with transparency */
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-top: 50px;
-            background-image: url('../static/img/green_landing.jpg');
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url('../static/img/background.jpg'); /* Background image URL */
             background-size: cover;
             background-position: center;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 20px;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .div-3 {
-            color: #ffffff; /* White */
-            font-size: 36px;
-            margin-bottom: 20px;
-            font-family: 'Roboto', sans-serif;
+        .search-container {
             position: absolute;
             top: 20px;
-            left: 20px;
-        }
-
-        .div-5 {
-            margin-top: 50px;
-        }
-
-        .landing-page {
-            position: relative;
-        }
-
-        #search-form {
-            position: absolute;
-            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent White */
+            background-color: rgba(255, 255, 255, 0.8); /* White with transparency */
             padding: 10px;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
         }
 
-        #search-input {
-            padding: 5px;
+        .search-bar {
+            width: 300px;
+            padding: 8px;
+            font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            margin-right: 10px;
         }
 
-        .button {
-            padding: 10px 20px;
+        .search-button {
+            padding: 8px 16px;
             background-color: #008080; /* Teal */
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
             font-size: 16px;
-            margin-top: 20px;
+            transition: background-color 0.3s ease;
         }
 
-        .button:hover {
+        .search-button:hover {
             background-color: #005757; /* Dark Teal */
         }
 
-        .div-42 {
+        .output-container {
             text-align: center;
-            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .output-text {
+            font-size: 18px;
+            color: #333; /* Dark Gray */
         }
     </style>
 </head>
 <body>
     <div class="logout-container">
-        <button class="logout-button"><a href="{{ url_for('logout') }}" style="color: #008080; text-decoration: none;">Logout</a></button>
+        <button class="logout-button">Logout</button>
     </div>
     <div class="container">
-        <div class="div-3">Genie</div>
-        <div class="div-5">
-            <div class="landing-page">
-                <form id="search-form">
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Enter gene or disease name..."
-                    />
-                    <button type="submit" class="button">Search</button>
-                </form>
-                <div id="results"></div>
-                <script src="../static/js/scripts.js"></script>
-            </div>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search...">
+            <button class="search-button" onclick="showOutput()">Search</button>
         </div>
     </div>
-    <div class="div-8">
-        <button class="button"><a href="learn_more.html" style="color: #fff; text-decoration: none;">Learn More</a></button>
-        <button class="button"><a href="contact_us.html" style="color: #fff; text-decoration: none;">Contact Us</a></button>
+    <div class="output-container" id="output" style="display: none;">
+        <p class="output-text">Output will be displayed here...</p>
     </div>
-    <div class="div-42">© 2024 Genie. All rights reserved.</div>
+    <script>
+        function showOutput() {
+            var outputDiv = document.getElementById("output");
+            outputDiv.style.display = "block";
+        }
+    </script>
 </body>
 </html>
