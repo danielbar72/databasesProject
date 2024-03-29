@@ -1,20 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h4>
-        {{disease_name}}
-    </h4>
-    <h4>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disease Information</title>
+    <style>
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("https://tack180.com/wp-content/uploads/2019/09/Genetic-Testing_What-Are-the-Pros-and-Cons.png");
+        background-size: cover;
+        filter: blur(30%);
+        z-index: -1;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      h4 {
+        color: #008080;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 5px;
+        padding: 10px;
+        width: 80%;
+        margin: 10px auto;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      a {
+        display: inline-block;
+        background-color: #008080;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      a:hover {
+        background-color: #005757;
+      }
+      .bold-intro {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #013e3e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="info-container">
+      <h4>
+        <div>
+          <p class="bold-intro">Disease name:</p>
+          {{disease_name}}
+        </div>
+      </h4>
+      <h4>
+        <p class="bold-intro">Treatment Description:</p>
         {{treatment_desc}}
-    </h4>
-    <h4>
+      </h4>
+      <h4>
+        <p class="bold-intro">Gene Name:</p>
         {{gene_name}}
-    </h4>
-    <a href="/genie">Go back to disease selection.</a>
-</body>
+      </h4>
+      <a href="/genie">Go back to disease selection.</a>
+    </div>
+  </body>
 </html>

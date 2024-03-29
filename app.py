@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -114,14 +114,13 @@ def register():
 def genie():
     if request.method == 'GET':
         options = [d[0] for d in Disease.query.with_entities(Disease.name).all()]
-        return render_template('genie.html', options = options)
+        return render_template('genie.html', options=options, username=current_user.username)
     
     disease_name = request.form['option']
-    d = Disease.query.filter_by(name = disease_name).first()
-    treatment =  Treatment.query.filter_by(disease_id = d.id).first()
-    gene = Gene.query.filter_by(disease_id = d.id).first()
-    return render_template('info.html', disease_name = disease_name, treatment_desc = treatment.description, gene_name =  gene.name)
-    
+    d = Disease.query.filter_by(name=disease_name).first()
+    treatment = Treatment.query.filter_by(disease_id=d.id).first()
+    gene = Gene.query.filter_by(disease_id=d.id).first()
+    return render_template('info.html', disease_name=disease_name, treatment_desc=treatment.description, gene_name=gene.name, username=current_user.username)
 
 @app.route('/', methods = ['GET'])
 def index():    
