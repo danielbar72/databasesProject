@@ -1,11 +1,11 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
-import csv
+import csv, os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -22,47 +22,26 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
-    #firstname = db.Column(db.String(20))
-    #lastname = db.Column(db.String(20))
-    #registration_date = db.Column(db.DateTime(20), default=datetime.now)
 
 
-
-
-disease_gene = db.Table('disease_gene', 
-    db.Column('disease_id', db.Integer, db.ForeignKey('disease.id')),
-    db.Column('gene_id', db.Integer, db.ForeignKey('gene.id')))
-
-
-
-"""
-    disease_drug = db.Table('disease_treatment', 
-    db.Column('disease_id', db.Integer, db.ForeignKey('disease.id')),
-    db.Column('treatment_id', db.Integer, db.ForeignKey('treatment.id')))
-
-"""
 class Disease(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
-    description = db.Column(db.String(200))
-    symptoms = db.Column(db.String(200))
-    genes = db.relationship('Gene', secondary=disease_gene, backref='genes')
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(1000))
+    gene = db.relationship('Gene', uselist=False, back_populates='disease')
     treatment = db.relationship('Treatment', uselist=False, back_populates='disease')
 
 class Gene(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False, unique=True)
-    chromosome = db.Column(db.Integer)
-    function = db.Column(db.String(200))
+    disease_id = db.Column(db.Integer, db.ForeignKey('disease.id'), unique=True)
+    disease = db.relationship('Disease', back_populates='gene')
 
 class Treatment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #name = db.Column(db.String(200), nullable=False, unique=True)
     description = db.Column(db.String(200))
     disease_id = db.Column(db.Integer, db.ForeignKey('disease.id'), unique=True)
     disease = db.relationship('Disease', back_populates='treatment')
-    #mechanism_of_action = db.Column(db.String(200))
-    #side_effects = db.Column(db.String(200))
 
 class RegistrationForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -72,6 +51,7 @@ class RegistrationForm(FlaskForm):
         min=4, max=20)], render_kw={"placeholder" : "Password"})
     
     submit = SubmitField("Register")
+
     def validate_username(self, username):
         username_from_db = User.query.filter_by(username = username.data).first()
 
@@ -97,6 +77,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         usr = User.query.filter_by(username= form.username.data).first()
+        if usr is None:
+            return render_template('login.html', form = form)
+
         user = load_user(usr.id)
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
@@ -126,14 +109,23 @@ def register():
 
     return render_template('register.html', form = form)
 
-@app.route('/genie')
+@app.route('/genie', methods=['GET', 'POST'])
 @login_required
 def genie():
-    return render_template('genie.html')
+    if request.method == 'GET':
+        options = [d[0] for d in Disease.query.with_entities(Disease.name).all()]
+        return render_template('genie.html', options = options)
+    
+    disease_name = request.form['option']
+    d = Disease.query.filter_by(name = disease_name).first()
+    treatment =  Treatment.query.filter_by(disease_id = d.id).first()
+    gene = Gene.query.filter_by(disease_id = d.id).first()
+    return render_template('info.html', disease_name = disease_name, treatment_desc = treatment.description, gene_name =  gene.name)
+    
 
 @app.route('/', methods = ['GET'])
 def index():    
-    return render_template('index.html')
+    return redirect('/login')
 
 
 
@@ -155,7 +147,8 @@ def fill_db():
             g = Gene(name=row[1])
             d.treatment = t
             t.disease = d
-            d.genes.append(g)
+            d.gene = g
+            g.disease = d
             db.session.add_all([t,d,g])
         db.session.commit()
 
@@ -163,14 +156,17 @@ def fill_db():
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.drop_all()
-        try:
-            db.create_all()
-            print("Tables created successfully!")
-            fill_db()
-        except Exception as e:
-            print("Error creating tables:", e)
+    if not os.path.exists('instance/database.db'):
+    # Create the database if it doesn't exist
+        
+        with app.app_context():
+            db.drop_all()
+            try:
+                db.create_all()
+                print("Tables created successfully!")
+                fill_db()
+            except Exception as e:
+                print("Error creating tables:", e)
 
     
     app.run(debug=True)

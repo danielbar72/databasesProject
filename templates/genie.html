@@ -9,8 +9,8 @@
             font-family: Arial, sans-serif;
         }
 
+
         .logout-container {
-            position: absolute;
             top: 0;
             right: 0;
             padding: 10px;
@@ -28,10 +28,6 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 14px;
-        }
-
-        .logout-button:hover {
-            background-color: rgba(0, 128, 128, 0.5); 
         }
 
         .container {
@@ -134,16 +130,15 @@
             The platform that provides comprehensive disease information including genetic data, descriptions, and treatment options all in one place. Simply search for the disease of interest and access summarized data.
         </div>
         <div class="search-container">
-    <form id="search-form">
-        <input
-            type="text"
-            id="search-input"
-            name="search_input"
-            class="search-bar"
-            placeholder="Enter gene or disease name..."
-        />
-        <button type="submit" class="button">Search</button>
-    </form>
+        <form method="POST" action="/genie" id="disease_select">
+            <label for="select-option">Select a disease:</label>
+            <select id="select-option" name="option">
+                {% for option in options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Submit</button>
+        </form>
     <div id="results" class="output-container" style="display: none;"></div>
 </div>
 <script src="../static/js/scripts.js"></script>
